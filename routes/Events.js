@@ -70,8 +70,8 @@ router.post("/create/case", async(req,res)=>{
     const new_case_algo = new Algo({ Priority : req.body.Priority });
 
     const new_case_schedule = new Schedule({ 
-        Room : req.body.Room ,
-        Date : req.body.date ,
+        Room : req.body.Room,
+        Date : req.body.date,
         Start : req.body.time
     });
 
