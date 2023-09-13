@@ -4,6 +4,7 @@ const router = express.Router();
 const Case = require("../models/case")
 const Algo = require("../models/Algo")
 const Schedule = require("../models/Schedule");
+const Evidence = require("../models/Evidence")
 const dayjs = require("dayjs");
 
 router.get("/Schedule", async(req,res)=>{
@@ -47,8 +48,20 @@ router.post("/create/case", async(req,res)=>{
 })
 
 router.get("/:id", async(req,res)=>{
-    const find_case = await Case.findById(req.params.id).populate("Algo_data");
+    const find_case = await Case.findById(req.params.id).populate("Algo_data").populate("Evidence");
     res.render("show",{find_case});
+})
+
+router.get("/:id/Respondent/:EId", async(req,res)=>{
+    const find_Evidence = await Evidence.findById(req.params.EId);
+    const name = Respondent
+    res.render("ShowEvidence",{find_Evidence,name})
+})
+
+router.get("/:id/Petioner/:EId", async(req,res)=>{
+    const find_Evidence = await Evidence.findById(req.params.EId);
+    const name = Petioner
+    res.render("",{find_Evidence,name})
 })
 
 
