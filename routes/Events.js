@@ -4,8 +4,44 @@ const router = express.Router();
 const Case = require("../models/case")
 const Algo = require("../models/Algo")
 const Schedule = require("../models/Schedule");
-const Evidence = require("../models/Evidence")
+const Evidence = require("../models/Evidence");
+
 const dayjs = require("dayjs");
+const multer = require("multer")
+const {storage} = require("../cloudinary/cloud")
+
+const upload = multer({storage})
+
+router.get("/evidence/:id", async(req,res)=>{ //show
+    const find_Evidence_Res = await Evidence.find({Case : req.params.id , Belongings : "Respondent" });
+    const find_Evidence_Pet = await Evidence.find({Case : req.params.id , Belongings : "Petioner" });
+    const find_case = await Case.findById(req.params.id);
+    console.log(find_Evidence_Pet);
+    console.log(find_Evidence_Res);
+    if(find_Evidence_Res.length===0 && find_Evidence_Pet.length===0){
+        const msg="empty"
+        return res.render("ShowEvidence",{find_Evidence_Res,msg,find_Evidence_Pet,find_case})
+    }
+    const msg = "";
+    return res.render("ShowEvidence",{find_Evidence_Res,msg,find_Evidence_Pet,find_case})
+})
+
+router.get("/evidence/:id/new",async(req,res)=>{
+    const find_case = await Case.findById(req.params.id);
+    res.render("AddEvidence",{find_case});
+})
+
+router.post("/evidence/:id/post", upload.array("img"), async(req,res)=>{
+    const find_case = await Case.findById(req.params.id);
+    const new_evidence = new Evidence({
+        Belongings : req.body.Belongings,
+        Details : req.body.Details
+    })
+    req.files[0].path && new_evidence.Images.push({url : req.files[0].path , filename : req.files[0].filename})
+    new_evidence.Case=find_case
+    await new_evidence.save();
+    res.redirect("/event")
+})
 
 router.get("/Schedule", async(req,res)=>{
     const find_case = await Case.find({}).populate("Next_Hearing");
@@ -41,6 +77,8 @@ router.post("/create/case", async(req,res)=>{
 
     new_case.Next_Hearing = new_case_schedule;
     new_case.Algo_data = new_case_algo;
+
+
     await new_case.save()
     await new_case_algo.save()
     await new_case_schedule.save()
@@ -48,20 +86,8 @@ router.post("/create/case", async(req,res)=>{
 })
 
 router.get("/:id", async(req,res)=>{
-    const find_case = await Case.findById(req.params.id).populate("Algo_data").populate("Evidence");
+    const find_case = await Case.findById(req.params.id).populate("Algo_data")
     res.render("show",{find_case});
-})
-
-router.get("/:id/Respondent/:EId", async(req,res)=>{
-    const find_Evidence = await Evidence.findById(req.params.EId);
-    const name = Respondent
-    res.render("ShowEvidence",{find_Evidence,name})
-})
-
-router.get("/:id/Petioner/:EId", async(req,res)=>{
-    const find_Evidence = await Evidence.findById(req.params.EId);
-    const name = Petioner
-    res.render("",{find_Evidence,name})
 })
 
 

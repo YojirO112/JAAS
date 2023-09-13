@@ -47,13 +47,6 @@ const OnCase_Schema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref : "Algo"
     },
-
-    Evidence : [
-        {
-            type : mongoose.Schema.Types.ObjectId,
-            ref : "Evidence"
-        }
-    ]
 })
 
 const OnCase = mongoose.model("OnCase",OnCase_Schema);

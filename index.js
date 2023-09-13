@@ -11,6 +11,7 @@ app.use(express.urlencoded({extended : true}));
 app.use("/google",Calendar);
 app.use("/event",Event);
 
+app.use(express.static(path.join(__dirname,"public")));
 
 app.set("views",path.join(__dirname,"views"));
 app.set("view engine","ejs");
