@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form action="/event/create/case" method="post">
+
+        <input type="text" name="Name" id="Name" placeholder="Case Name">
+
+        <select name="Crime" id="Crime">
+            <option value="Civil">Civil</option>
+            <option value="Criminal">Criminal</option>
+        </select>
+
+        <select name="Room" id="Room">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+
+        <select name="Priority" id="Priority">
+            <option value="Quick - High Priority">Quick - High Priority</option>
+            <option value="Slow - Low Priority">Slow - Low Priority</option>
+        </select>
+
+        <input type="date" name="date" id="date" placeholder="date">
+        <input type="time" name="time" id="time" placeholder="time">
+
+        <button>Submit</button>
+    </form>
+
+</body>
+</html>

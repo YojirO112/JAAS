@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <% for( let i of find_case ) { %>
+
+        <span> * </span>
+        <div>
+            <%= i.Name %>
+        </div>
+
+        <div>
+            Date : <%= i.Next_Hearing.Date %>
+        </div>
+
+        <div>
+            Start : <%= i.Next_Hearing.Start %>
+        </div>
+
+        <div>
+            End : <%= i.Next_Hearing.End %>
+        </div>
+    
+    <% } %>
+
+</body>
+</html>
